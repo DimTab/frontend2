@@ -24,20 +24,41 @@ document.getElementsByTagName('form')[0].addEventListener(
                 errorDiv.style.display = 'block'
             })
         } else {
-            /* const errorDivs = document.getElementsByClassName('form-error')
+            const errorDivs = document.getElementsByClassName('form-error')
             for (let i = 0; i < errorDivs.length; i++) {
                 // errorDiv.style.display = 'none'
                 console.log('error', errorDivs[i])
                 errorDivs[i].style.display = 'none'
-            } */
+            }
             // TODO send form data to the server
-            /* students.unshift(new Student(
+            students.unshift(new Student(
                 nameInput.value,
                 document.getElementById('age').value,
                 document.getElementById('score').value,
                 document.getElementById('email').value
-            )) */
+            ))
+            const url='http://localhost:4000/api/students'
+            const data ={
+                name": nameInput.value,
+                "age": document.getElementById('age').value,
+                "avgScore": document.getElementById('score').value,
+                "email": document.getElementById('email').value
+            }
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                if (response.status === 201) {
             fillStudentList()
+                    } else {
+                    alert(`Server Error. Status Code: ${response.status}`)
+                }
+            } catch (error) {
+                console.error('Error:', error)
         }
     }
 )
